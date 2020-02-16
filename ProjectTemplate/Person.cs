@@ -5,26 +5,54 @@ using System.Web;
 
 namespace ProjectTemplate
 {
+    
     public class Person
     {
-        private string fristName, lastName, email, password, status;
+        private string fristName, lastName, email, password;
         private int userID;
 
-        public Person(string fristName, string lastName, string email, string password, string status, int userID)
+        public Person(string fristName, string lastName, string email, string password, int userID)
         {
-            this.fristName = fristName;
-            this.lastName = lastName;
-            this.email = email;
-            this.password = password;
-            this.status = status;
-            this.userID = userID;
+            FristName = fristName;
+            LastName = lastName;
+            Email = email;
+            Password = password;
+            UserID = userID;
         }
 
-        public string FristName { get => fristName; set => fristName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public string Email { get => email; set => email = value; }
-        public string Password { get => password; set => password = value; }
-        public string Status { get => status; set => status = value; }
-        public int UserID { get => userID; set => userID = value; }
+        public Person() { }
+
+        public string FristName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int UserID { get; set; }
+
+        static protected string[] statusus = new string[] { "admin", "manager", "user" };
+    }
+
+    public class Admin : Person
+    {
+        protected string Status { get; set; }
+        public Admin(string fristName, string lastName, string email, string password, int userID)
+        {
+            Status = Person.statusus[0];
+        }
+    }
+    public class Manager : Person
+    {
+        protected string Status { get; set; }
+        public Manager(string fristName, string lastName, string email, string password, int userID)
+        {
+            Status = Person.statusus[1];
+        }
+    }
+    public class User : Person
+    {
+        protected string Status { get; set; }
+        public User(string fristName, string lastName, string email, string password, int userID)
+        {
+            Status = Person.statusus[2];
+        }
     }
 }

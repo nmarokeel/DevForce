@@ -90,10 +90,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Feedback-Form.html" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="Login_Screen.html" />
     <Content Include="ProjectServices.asmx" />
+    <Content Include="Sign_Up_Screen.html" />
+    <Content Include="Terms_&amp;_Conditions.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

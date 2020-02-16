@@ -132,8 +132,9 @@ namespace ProjectTemplate
             sqlConnection.Close();
         }
 
+        //method to get all requests from database that don't have a resolution
         [WebMethod(EnableSession = true)]
-        public Request[] getUnresolvedRequests()
+        public Request[] GetUnresolvedRequests()
         {
             //string to select all items from requests table that don't have resolution
             string sqlSelect = "select reqid, problem, solution, userid, department, datesubmitted, type, resolution FROM requests WHERE resolution is NULL;";
@@ -171,6 +172,38 @@ namespace ProjectTemplate
 
 
         }
+
+        [WebMethod(EnableSession = true)]
+        public string AddResolution(string id, string resolution)
+        {
+            //sql command to update the resoltuion field to the provided resolution value where the request id value
+            //matches the provided id value
+            string sqlSelect = "update requests set resolution=@resolutionValue where reqid=@idValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            //uses the provided values to update the sql command
+            sqlCommand.Parameters.AddWithValue("@resolutionValue", HttpUtility.UrlDecode(resolution));
+            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(id));
+
+            //open the connection to sql database
+            sqlConnection.Open();
+
+            //try - catch block 
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                return "Success!";
+            }
+            catch(Exception e)
+            {
+                return "ERROR!!" + e.Message;
+            }
+
+            sqlConnection.Close();
+        }
+
 
         
     }

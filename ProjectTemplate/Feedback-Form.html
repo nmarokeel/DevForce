@@ -203,23 +203,28 @@
 					feedback form. We strongly encourage employee engagement as it represents the levels of enthusiasm
 					and connection
 					our employees have with our organization. We thank you for your participation.</p>
-				
-				<br><h6><center>Using the buttons below, adjust the chart accordingly to align your views for how you perceive
-					DevForce Incorporated.</h6></center>
+
+				<br>
+				<h6>
+					<center>Using the buttons below, adjust the chart accordingly to align your views for how you
+						perceive
+						DevForce Incorporated.
+				</h6>
+				</center>
 				<div id="pieorig"></div>
 				<div class="buttons">
 					<table>
 						<tr>
-						  <td><button id="a" >A</button></td>
-						  <td><button id="b">B</button></td>
-						  <td><button id="c">C</button></td>
+							<td><button id="a">A</button></td>
+							<td><button id="b">B</button></td>
+							<td><button id="c">C</button></td>
 						</tr>
 						<tr>
-						  <td>Adaptive to Change</td>
-						  <td>Clear Vision</td>
-						  <td>Positive Leadership</td>
+							<td>Adaptive to Change</td>
+							<td>Clear Vision</td>
+							<td>Positive Leadership</td>
 						</tr>
-					  </table>
+					</table>
 				</div>
 
 				<h4>Please rate your overall experience with our service</h4>
@@ -356,8 +361,8 @@
 					function change() {
 						var pie = d3.pie()
 							.value(function (d) { return d.presses; })(dataorig);
-						path = d3.select("#pieorig").selectAll("path").data(pie);
-						path.transition().duration(500).attrTween("d", arcTween);
+						path = d3.select("#pieorig").selectAll("path").data(pie); // Compute the new angles
+						path.transition().duration(500).attrTween("d", arcTween); // Smooth transition with arcTween
 						d3.selectAll("text").data(pie).transition().duration(500).attrTween("transform", labelarcTween); // Smooth transition with labelarcTween
 					}
 

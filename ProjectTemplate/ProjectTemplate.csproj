@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="HtmlPage1.html" />
     <Content Include="index.html" />
     <Content Include="ProjectServices.asmx" />
     <Content Include="Web.config" />
@@ -111,6 +112,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Request.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

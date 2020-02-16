@@ -28,7 +28,7 @@ namespace ProjectTemplate
         ///call this method anywhere that you need the connection string!
         ////////////////////////////////////////////////////////////////////////
         private string getConString() {
-            return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName + "; UID=" + dbID + "; PASSWORD=" + dbPass;
+            return "SERVER=107.180.1.16; PORT=3306; DATABASE=" + dbName + "; UID=" + dbID + "; PASSWORD=" + dbPass + "; Convert Zero Datetime=true";
         }
         ////////////////////////////////////////////////////////////////////////
 
@@ -93,5 +93,85 @@ namespace ProjectTemplate
 
             return success;
         }
+
+        [WebMethod]
+        public void RequestAccount(string email, string pass, string status)
+        {
+            //string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
+            //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
+            //does is tell mySql server to return the primary key of the last inserted row.
+            string sqlSelect = "insert into users (email, password, status) " +
+                "values(@emailValue, @passValue, @statusValue); SELECT LAST_INSERT_ID();";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            sqlCommand.Parameters.AddWithValue("@emailValue", HttpUtility.UrlDecode(email));
+            sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
+            sqlCommand.Parameters.AddWithValue("@statusValue", HttpUtility.UrlDecode(status));
+            
+
+            //this time, we're not using a data adapter to fill a data table.  We're just
+            //opening the connection, telling our command to "executescalar" which says basically
+            //execute the query and just hand me back the number the query returns (the ID, remember?).
+            //don't forget to close the connection!
+            sqlConnection.Open();
+            //we're using a try/catch so that if the query errors out we can handle it gracefully
+            //by closing the connection and moving on
+            try
+            {
+                int accountID = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                //here, you could use this accountID for additional queries regarding
+                //the requested account.  Really this is just an example to show you
+                //a query where you get the primary key of the inserted row back from
+                //the database!
+            }
+            catch (Exception e)
+            {
+            }
+            sqlConnection.Close();
+        }
+
+        [WebMethod(EnableSession = true)]
+        public Request[] getUnresolvedRequests()
+        {
+            //string to select all items from requests table that don't have resolution
+            string sqlSelect = "select reqid, problem, solution, userid, department, datesubmitted, type, resolution FROM requests WHERE resolution is NULL;";
+
+            //creates a table for us to load an array into
+            DataTable sqlDt = new DataTable("requests");
+
+            //standard sql connection variables
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            sqlDa.Fill(sqlDt);
+
+            //creating the array of Request objects by looping through the database request table for all entries without a resolution already
+            List<Request> requests = new List<Request>();
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+                requests.Add(new Request
+                {
+                    requestID = Convert.ToInt32(sqlDt.Rows[i]["reqid"]),
+                    problem = sqlDt.Rows[i]["problem"].ToString(),
+                    solution = sqlDt.Rows[i]["solution"].ToString(),
+                    userID = Convert.ToInt32(sqlDt.Rows[i]["userid"]),
+                    department = sqlDt.Rows[i]["department"].ToString(),
+                    date = sqlDt.Rows[i]["datesubmitted"].ToString(),
+                    type = sqlDt.Rows[i]["type"].ToString(),
+                    resolution = sqlDt.Rows[i]["resolution"].ToString()
+                });
+            }
+
+            //returns the array of the Request objects
+            return requests.ToArray();
+
+
+        }
+
+        
     }
 }

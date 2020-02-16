@@ -9,7 +9,7 @@
 	<!--YOUR OWN JAVASCRIPT CAN GO RIGHT HERE-->
 	<script type="text/javascript">
 		function TestButtonHandler() {
-			var webMethod = "ProjectServices.asmx/logOn";
+			var webMethod = "ProjectServices.asmx/TestConnection";
 			var parameters = "{}";
 
 			//jQuery ajax method
@@ -30,7 +30,33 @@
 					alert("this code will only execute if javascript is unable to access the webservice");
 				}
 			});
-		}
+        }
+
+        function LogOn(email, password) {
+            var webMethod = "ProjectServices.asmx/logOn";
+            var parameters = "{\"uid\":\"" + encodeURI(email) + "\",\"pass\":\"" + encodeURI(password) + "\"}";
+
+            //jQuery ajax method
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    //var responseFromServer = msg.d;
+                    //alert(responseFromServer.firstName);
+                    //alert(responseFromServer.lastName);
+                    //alert(responseFromServer.phoneNumber);
+                    alert("Successfully logged in");
+
+                },
+                error: function (e) {
+                    alert("Invalid Credentials!");
+                }
+            });
+        }
+       
 	</script>
 	<!--END OF YOUR OWN JAVASCRIPT-->
 
@@ -41,6 +67,24 @@
 	<!--END OF YOUR OWN CSS-->
 </head >
 <body>
-	<button onclick="javascript: TestButtonHandler();">Click here to test connection!</button>
+    <button onclick="javascript: TestButtonHandler();">Click here to test connection!</button>
+
+    <form onsubmit="LogOn($('#logonId').val(), $('#logonPassword').val()); return false;">
+        <div class="left">Logon</div>
+        <div><a href="#" onclick="showPanel('newAccountPanel')" class="tinyLink">...or request an account</a></div>
+        <hr />
+        <div>
+            ID: <input type="text" id="logonId" />
+        </div>
+        <div>
+            Pwd: <input type="password" id="logonPassword" />
+        </div>
+        <hr />
+        <div>
+            <button type="submit">Go!</button>
+        </div>
+    </form>
+
+
 </body>
 </html >

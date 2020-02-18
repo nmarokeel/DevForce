@@ -156,14 +156,14 @@ namespace ProjectTemplate
             {
                 requests.Add(new Request
                 {
-                    requestID = Convert.ToInt32(sqlDt.Rows[i]["reqid"]),
-                    problem = sqlDt.Rows[i]["problem"].ToString(),
-                    solution = sqlDt.Rows[i]["solution"].ToString(),
-                    userID = Convert.ToInt32(sqlDt.Rows[i]["userid"]),
-                    department = sqlDt.Rows[i]["department"].ToString(),
-                    date = sqlDt.Rows[i]["datesubmitted"].ToString(),
-                    type = sqlDt.Rows[i]["type"].ToString(),
-                    resolution = sqlDt.Rows[i]["resolution"].ToString()
+                    RequestID = Convert.ToInt32(sqlDt.Rows[i]["reqid"]),
+                    Problem = sqlDt.Rows[i]["problem"].ToString(),
+                    Solution = sqlDt.Rows[i]["solution"].ToString(),
+                    UserID = Convert.ToInt32(sqlDt.Rows[i]["userid"]),
+                    Department = sqlDt.Rows[i]["department"].ToString(),
+                    Date = sqlDt.Rows[i]["datesubmitted"].ToString(),
+                    Type = sqlDt.Rows[i]["type"].ToString(),
+                    Resolution = sqlDt.Rows[i]["resolution"].ToString()
                 });
             }
 

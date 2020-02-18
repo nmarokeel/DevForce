@@ -39,13 +39,13 @@
 
                 <label for="email"><b>Email</b></label><br>
                 <div class="wrap-input100 validate-input m-b-20" data-validate="Enter Email">
-                    <input type="text" placeholder="Enter Email" name="email" required id="email">
+                    <input type="text" id="email" placeholder="Enter Email" name="email" required>
                     <span class="focus-input100"></span>
                 </div>
 
                 <label for="psw"><b>Password</b></label><br>
                 <div class="wrap-input100 validate-input m-b-25" data-validate="Enter Password">
-                    <input type="password" placeholder="Enter Password" name="psw" required id="psw">
+                    <input type="password" id="psw" placeholder="Enter Password" name="psw" required>
                     <span class="focus-input100"></span>
                 </div>
 
@@ -63,8 +63,6 @@
                     </a>
                 </div>
             </form>
-
-
         </div>
     </div>
 
@@ -100,7 +98,7 @@
             $.ajax({
                 type: "POST",
                 url: webMethod,
-                data: email, password
+                data: email, password,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
@@ -116,8 +114,6 @@
                 }
             });
         }
-
-
     </script>
 
 </body>

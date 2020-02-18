@@ -43,7 +43,7 @@ namespace ProjectTemplate
         {
             try
             {
-                string testQuery = "select * from users";
+                string testQuery = "select * from person";
 
                 ////////////////////////////////////////////////////////////////////////
                 ///here's an example of using the getConString method!
@@ -68,7 +68,7 @@ namespace ProjectTemplate
             bool success = false;
 
             //set the sql query to pass through and assign to the string sqlSelect
-            string sqlSelect = "SELECT userid FROM users WHERE email=@emailvalue AND password=@passvalue";
+            string sqlSelect = "SELECT userid FROM person WHERE email=@emailvalue AND password=@passvalue";
 
             //set the sql connection to be used
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
@@ -100,7 +100,7 @@ namespace ProjectTemplate
             //string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
-            string sqlSelect = "insert into users (email, password, status) " +
+            string sqlSelect = "insert into person (email, password, status) " +
                 "values(@emailValue, @passValue, @statusValue); SELECT LAST_INSERT_ID();";
 
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
@@ -204,7 +204,32 @@ namespace ProjectTemplate
             sqlConnection.Close();
         }
 
+        [WebMethod(EnableSession = true)]
+        public string DeleteUser(string id)
+        {
+            //sql command to delete the user in question identified by id number
+            string sqlSelect = "delete from person where userid=@idValue;";
 
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            //update the value in the sql command with the provided value to the method
+            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(id));
+
+            //open the connection to sql database
+            sqlConnection.Open();
+
+            //try-catch block
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                return "User successfully deleted!";
+            }
+            catch(Exception e)
+            {
+                return "ERROR!!" + e.Message;
+            }
+        }
         
     }
 }

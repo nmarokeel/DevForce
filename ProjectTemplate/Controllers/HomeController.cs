@@ -11,7 +11,8 @@ namespace ProjectTemplate.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            return View("index.html");
+            
         }
     }
 }

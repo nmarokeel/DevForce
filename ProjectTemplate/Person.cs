@@ -8,12 +8,12 @@ namespace ProjectTemplate
     
     public class Person
     {
-        private string fristName, lastName, email, password;
+        private string firstName, lastName, email, password;
         private int userID;
 
         public Person(string fristName, string lastName, string email, string password, int userID)
         {
-            FristName = fristName;
+            FirstName = fristName;
             LastName = lastName;
             Email = email;
             Password = password;
@@ -22,7 +22,7 @@ namespace ProjectTemplate
 
         public Person() { }
 
-        public string FristName { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

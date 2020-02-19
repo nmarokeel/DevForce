@@ -126,7 +126,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Feedback-Form.html" />
+    <Content Include="Views\Feedback-Form.html" />
     <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.css" />
     <Content Include="fonts\font-awesome-4.7.0\css\font-awesome.min.css" />
     <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.svg" />
@@ -139,7 +139,7 @@
     <Content Include="fonts\source-sans-pro\OFL.txt" />
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
-    <Content Include="index.html" />
+    <Content Include="Views\index.html" />
     <Content Include="Login_Screen.html" />
     <Content Include="ProjectServices.asmx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -178,6 +178,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Request.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\font-awesome-4.7.0\fonts\fontawesome-webfont.eot" />

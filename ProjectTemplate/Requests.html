@@ -10,7 +10,22 @@
     <h1>Open Requests</h1>
     <div id="requests"><table border="1" id="table_id"></table></div>
 
+    
 
+    <!----<div class="form-popup" id="myForm">
+        <form action="/action_page.php" class="form-container">
+            <h1>Request</h1>
+
+            <label for="reqid"><b>Request ID</b></label>
+            <input type="text" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Problem</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit" class="btn">Login</button>
+            <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>---> 
 
     <script type="text/javascript">
 
@@ -33,13 +48,16 @@
 
                     for (var i = 0; i < requestArray.length; i++) {
                         var req;
+                        var table = document.getElementById("table_id");
+                        var row = table.insertRow(i);
 
-                        req = "<tr><td>" + requestArray[i].requestID + "</td><td>" + requestArray[i].problem + "</td><td>" + requestArray[i].solution + "</td><td>" + requestArray[i].department + "</td><td>" + 
-                            requestArray[i].date + "</td><td>" + requestArray[i].type + "</td></tr > ";
+                        req = "<tr><td>" + requestArray[i].requestID + "</td><td>" + requestArray[i].problem + "</td><td>" + requestArray[i].solution + "</td><td>" + requestArray[i].department + "</td><td>" +
+                            requestArray[i].date + "</td><td>" + requestArray[i].type + "</td></tr>";
+                        //row.innerHtml = req;
+                        $("#table_id").append(req);
+                    }
 
-                        }
 
-                    $("#table_id").append(req);
                 },
                 error: function (e) {
                     alert("Something went wrong!");
@@ -50,7 +68,7 @@
 
 
 
-        </script>
+    </script>
 
-</body >
+</body>
 </html >

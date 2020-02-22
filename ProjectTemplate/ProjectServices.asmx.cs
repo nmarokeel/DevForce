@@ -231,5 +231,41 @@ namespace ProjectTemplate
             }
         }
         
+        [WebMethod(EnableSession = true)]
+        public Request GetRequestByID(string id)
+        {
+            string sqlSelect = "select reqid, problem, solution, userid, department, datesubmitted, type, resolution from requests WHERE reqid=@reqidValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            DataTable sqlDt = new DataTable("request");
+
+            sqlCommand.Parameters.AddWithValue("@reqidValue", HttpUtility.UrlDecode(id));
+
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            sqlDa.Fill(sqlDt);
+
+            Request req1 = new Request();
+
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+
+                req1.requestID = Convert.ToInt32(sqlDt.Rows[i]["reqid"]);
+                req1.problem = sqlDt.Rows[i]["problem"].ToString();
+                req1.solution = sqlDt.Rows[i]["solution"].ToString();
+                req1.userID = Convert.ToInt32(sqlDt.Rows[i]["userid"]);
+                req1.department = sqlDt.Rows[i]["department"].ToString();
+                req1.date = sqlDt.Rows[i]["datesubmitted"].ToString();
+                req1.type = sqlDt.Rows[i]["type"].ToString();
+                req1.resolution = sqlDt.Rows[i]["resolution"].ToString();
+                
+            }
+
+            return req1;
+                                                  
+        }
+
     }
 }

@@ -4,6 +4,32 @@
     <meta charset="utf-8" />
     <title></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+        }
+
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+        }
+
+        .form-container input[type=text] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            border: none;
+            background: #f1f1f1;
+        }
+
+    </style>
 </head>
 <body onload="getOpenRequests()">
 
@@ -12,20 +38,36 @@
 
     
 
-    <!----<div class="form-popup" id="myForm">
+    <div class="form-popup" id="myForm">
         <form action="/action_page.php" class="form-container">
             <h1>Request</h1>
 
-            <label for="reqid"><b>Request ID</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+        <h3>Request ID</h3>
+        <p id="reqPop"></p>
 
-            <label for="psw"><b>Problem</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+        <h3>Problem</h3>
+        <p id="probPop"></p>
 
-            <button type="submit" class="btn">Login</button>
+        <h3>Solution</h3>
+        <p id="solPop"></p>
+
+        <h3>Department</h3>
+        <p id="depPop"></p>
+
+        <h3>Date Submitted</h3>
+        <p id="datePop"></p>
+
+        <h3>Type</h3>
+        <p id="typePop"></p>
+
+        <label for="resoPop"><b>Resolution</b></label>
+        <input type="text" maxlength="254" placeholder="Enter resolution text here" name="resoPop">
+                                   
+
+            <button type="submit" class="btn">Submit</button>
             <button type="submit" class="btn cancel" onclick="closeForm()">Close</button>
         </form>
-    </div>---> 
+    </div>
 
     <script type="text/javascript">
 
@@ -42,16 +84,18 @@
                 dataType: "json",
                 success: function (response) {
 
+                    //create an array with the response from the webMethod
                     requestArray = response.d;
-
+                    //clear the table just to ensure it's accurate
                     $("#table_id").empty();
 
+                    //loop through the array then add the values returned and put them into an html table as a new table row
                     for (var i = 0; i < requestArray.length; i++) {
                         var req;
                         var table = document.getElementById("table_id");
                         var row = table.insertRow(i);
 
-                        req = "<tr><td>" + requestArray[i].requestID + "</td><td>" + requestArray[i].problem + "</td><td>" + requestArray[i].solution + "</td><td>" + requestArray[i].department + "</td><td>" +
+                        req = "<tr onclick='openForm(); populateResolutionForm(1);' style='cursor:pointer'><td>" + requestArray[i].requestID + "</td><td>" + requestArray[i].problem + "</td><td>" + requestArray[i].solution + "</td><td>" + requestArray[i].department + "</td><td>" +
                             requestArray[i].date + "</td><td>" + requestArray[i].type + "</td></tr>";
                         //row.innerHtml = req;
                         $("#table_id").append(req);
@@ -66,7 +110,42 @@
 
         }
 
+        //function to open the hidden form to contain a single request information
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+        }
 
+        //function to close the hidden popup form when it's open
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+        function populateResolutionForm(id) {
+
+            var webMethod = "ProjectServices.asmx/GetRequestByID";
+            var parameters = "{\"id\":\"" + encodeURI(id) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: parameters,
+                success: function (response) {
+
+                    request1 = response.d;
+
+                    document.getElementById("reqPop").innerHTML = request1.requestID;
+                    document.getElementById("probPop").innerHTML = request1.problem;
+                    document.getElementById("solPop").innerHTML = request1.solution;
+                    document.getElementById("depPop").innerHTML = request1.department;
+                    document.getElementById("datePop").innerHTML = request1.date;
+                    document.getElementById("typePop").innerHTML = request1.type;
+
+                }
+
+            })
+        }
 
     </script>
 

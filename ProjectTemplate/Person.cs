@@ -10,6 +10,7 @@ namespace ProjectTemplate
     {
         private string firstName, lastName, email, password;
         private int userID;
+        private bool canApproveAccRq, isWhiteList;
 
         public Person(string fristName, string lastName, string email, string password, int userID)
         {
@@ -18,6 +19,7 @@ namespace ProjectTemplate
             Email = email;
             Password = password;
             UserID = userID;
+            Approval();
         }
 
         public Person() { }
@@ -27,6 +29,13 @@ namespace ProjectTemplate
         public string Email { get; set; }
         public string Password { get; set; }
         public int UserID { get; set; }
+        public bool CanApproveAccRq { get => canApproveAccRq; set => canApproveAccRq = false; }
+        public bool IsWhiteList { get => isWhiteList; set => isWhiteList = false; }
+
+        protected virtual void Approval()
+        {
+            canApproveAccRq = false;
+        }
 
         static protected string[] statusus = new string[] { "admin", "manager", "user" };
     }
@@ -37,7 +46,16 @@ namespace ProjectTemplate
         public Admin(string fristName, string lastName, string email, string password, int userID)
         {
             Status = Person.statusus[0];
+
         }
+
+        protected override void Approval()
+        {
+            CanApproveAccRq = true;
+            IsWhiteList = true;
+        }
+
+        public 
     }
     public class Manager : Person
     {

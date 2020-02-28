@@ -90,15 +90,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Feedback-Form.html" />
     <Content Include="Global.asax" />
     <Content Include="HtmlPage1.html" />
     <Content Include="index.html" />
+    <Content Include="Login_Screen.html" />
     <Content Include="ProjectServices.asmx" />
     <Content Include="Requests.html" />
+    <Content Include="Sign_Up_Screen.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Users.cs" />
+    <Compile Include="Feedback.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

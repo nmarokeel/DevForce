@@ -95,20 +95,20 @@ namespace ProjectTemplate
         }
 
         [WebMethod]
-        public void RequestAccount(string email, string pass, string status)
+        public void RequestAccount(string email, string pass)
         {
             //string sqlConnectString = System.Configuration.ConfigurationManager.ConnectionStrings["myDB"].ConnectionString;
             //the only thing fancy about this query is SELECT LAST_INSERT_ID() at the end.  All that
             //does is tell mySql server to return the primary key of the last inserted row.
             string sqlSelect = "insert into person (email, password, status) " +
-                "values(@emailValue, @passValue, @statusValue); SELECT LAST_INSERT_ID();";
+                "values(@emailValue, @passValue, 'user'); SELECT LAST_INSERT_ID();";
 
             MySqlConnection sqlConnection = new MySqlConnection(getConString());
             MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
 
             sqlCommand.Parameters.AddWithValue("@emailValue", HttpUtility.UrlDecode(email));
             sqlCommand.Parameters.AddWithValue("@passValue", HttpUtility.UrlDecode(pass));
-            sqlCommand.Parameters.AddWithValue("@statusValue", HttpUtility.UrlDecode(status));
+            
             
 
             //this time, we're not using a data adapter to fill a data table.  We're just
@@ -265,6 +265,44 @@ namespace ProjectTemplate
 
             return req1;
                                                   
+        }
+
+        [WebMethod(EnableSession = true)]
+        public string AddFeedback(string q1, string q2, string q3, string q4, string q5, string q6, string fText)
+        {
+            //sql command to add feedback forms submitted via the website to the database
+            
+            string sqlSelect = "insert into feedback(question1, question2, question3, question4, question5, question6, feedbacktext) " +
+                "values(@q1Value, @q2Value, @q3Value, @q4Value, @q5Value, @q6Value, @fTextValue);";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            //uses the provided values to update the sql command and send that data over
+            sqlCommand.Parameters.AddWithValue("@q1Value", HttpUtility.UrlDecode(q1));
+            sqlCommand.Parameters.AddWithValue("@q2Value", HttpUtility.UrlDecode(q2));
+            sqlCommand.Parameters.AddWithValue("@q3Value", HttpUtility.UrlDecode(q3));
+            sqlCommand.Parameters.AddWithValue("@q4Value", HttpUtility.UrlDecode(q4));
+            sqlCommand.Parameters.AddWithValue("@q5Value", HttpUtility.UrlDecode(q5));
+            sqlCommand.Parameters.AddWithValue("@q6Value", HttpUtility.UrlDecode(q6));
+            sqlCommand.Parameters.AddWithValue("@fTextValue", HttpUtility.UrlDecode(fText));
+
+            //open the connection to sql database
+            sqlConnection.Open();
+
+            //try - catch block 
+            try
+            {
+                //this executes the insert query
+                sqlCommand.ExecuteNonQuery();
+                return "Success!";
+            }
+            catch (Exception e)
+            {
+                return "ERROR!!" + e.Message;
+            }
+
+            sqlConnection.Close();
         }
 
     }

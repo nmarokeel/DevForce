@@ -1,62 +1,65 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>Login Screen</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 </head>
-<body>
 
+<body>
 
     <div class="container-login100" style="background-image: url('images/Company Background.jpeg');">
         <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-            <form class="login100-form validate-form">
+            <form class="login100-form validate-form" onsubmit="LogOn($('#em').val(), $('#psw').val()); return false;">
                 <span class="login100-form-title p-b-37">
                     <h2>Login In</h2>
                 </span>
-
                 <label for="email"><b>Email</b></label><br>
                 <div class="wrap-input100 validate-input m-b-20" data-validate="Enter Email">
-                    <input type="text" placeholder="Enter Email" name="email" required id="email">
+                    <input type="text" placeholder="Enter Email" name="email" id="em" required>
                     <span class="focus-input100"></span>
                 </div>
-
                 <label for="psw"><b>Password</b></label><br>
                 <div class="wrap-input100 validate-input m-b-25" data-validate="Enter Password">
-                    <input type="password" placeholder="Enter Password" name="psw" required id="psw">
+                    <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
                     <span class="focus-input100"></span>
                 </div>
-
-                <center><p>By logging in, you agree to our <a href="Terms_&_Conditions.html" style="color:dodgerblue">Terms & Conditions</a>.</p></center>
+                <center>
+                    <p>
+                        By logging in, you agree to our <a href="Terms_&_Conditions.html" style="color:dodgerblue">
+                            Terms
+                            & Conditions
+                        </a>.
+                    </p>
+                </center>
                 <br>
                 <div class="container-login100-form-btn">
-                    <button onclick="javascript: LogOn();" class="login100-form-btn">
-                        Sign In
-                    </button>
+                    
+                    <button type="submit" class="login100-form-btn">Login</button>
                 </div>
-
                 <div class="text-center">
                     <a href="Sign_Up_Screen.html" class="txt2 hov1">
                         Sign Up
@@ -64,14 +67,10 @@
                 </div>
             </form>
 
-
         </div>
     </div>
 
-
-
     <div id="dropDownSelect1"></div>
-
     <!--===============================================================================================-->
     <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->
@@ -91,34 +90,29 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script type="text/javascript">
-        function LogOn() {
+        function LogOn(uname, pwd) {
             var webMethod = "ProjectServices.asmx/logOn";
-            var email = document.getElementById("email").value;
-            var password = document.getElementById("psw").value;
+            var parameters = "{\"uname\":\"" + encodeURI(uname) + "\",\"pwd\":\"" + encodeURI(pwd) + "\"}";
 
             //jQuery ajax method
             $.ajax({
                 type: "POST",
                 url: webMethod,
-                data: email, password
+                data: parameters,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (msg) {
-                    //var responseFromServer = msg.d;
-                    //alert(responseFromServer.firstName);
-                    //alert(responseFromServer.lastName);
-                    //alert(responseFromServer.phoneNumber);
+
                     alert("Successfully logged in");
+                    window.open("Feedback-Form.html", "_self");
 
                 },
                 error: function (e) {
-                    alert("this code will only execute if javascript is unable to access the webservice");
+                    alert("Invalid Credentials!");
                 }
             });
         }
+        </script>
+</body >
 
-
-    </script>
-
-</body>
-</html>
+</html >

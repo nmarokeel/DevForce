@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Customer Feedback Form</title>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600' rel='stylesheet'
+		type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<style>
+		html,
+		body {
+			min-height: 100%;
+		}
+
+		body,
+		div,
+		form,
+		input,
+		p {
+			padding: 0;
+			margin: 0;
+			outline: none;
+			font-family: Roboto, Arial, sans-serif;
+			font-size: 14px;
+			color: #666;
+			line-height: 22px;
+		}
+
+		h1 {
+			font-weight: 400;
+		}
+
+		h4 {
+			margin: 15px 0 4px;
+		}
+
+		.testbox {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: inherit;
+			padding: 3px;
+		}
+
+		form {
+			width: 100%;
+			padding: 20px;
+			background: #fff;
+			box-shadow: 0 2px 5px #ccc;
+		}
+
+		input {
+			width: calc(100% - 10px);
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			vertical-align: middle;
+		}
+
+		input[type=submit] {
+			background-color: #4CAF50;
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			float: right;
+		}
+
+		.email {
+			display: block;
+			width: 45%;
+		}
+
+		input:hover,
+		textarea:hover {
+			outline: 1pt sold black;
+			border: 1px solid #095484;
+		}
+
+		th,
+		td {
+			width: 15%;
+			padding: 15px 0;
+			border-bottom: 1px solid #ccc;
+			text-align: center;
+			vertical-align: unset;
+			line-height: 18px;
+			font-weight: 400;
+			word-break: break-all;
+		}
+
+		.first-col {
+			width: 16%;
+			text-align: left;
+		}
+
+		table {
+			width: 100%;
+		}
+
+		textarea {
+			width: calc(100% - 6px);
+		}
+
+		.btn-block {
+			margin-top: 20px;
+			text-align: center;
+		}
+
+		button {
+			width: 150px;
+			padding: 10px;
+			border: none;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background-color: #095484;
+			font-size: 16px;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		button:hover {
+			background-color: #0666a3;
+		}
+
+		#header {
+			padding: 12px;
+			background: black;
+			overflow: auto;
+			border-bottom: 1px solid #ddd;
+		}
+
+		.navbar {
+			overflow: hidden;
+			background-color: rgba(185, 0, 255, 0.5);
+		}
+
+		.navbar a {
+			float: left;
+			font-size: 12px;
+			color: white;
+			text-align: center;
+			padding: 10px 12px;
+			text-decoration: none;
+		}
+
+		.navbar a:hover {
+			background-color: black;
+		}
+
+		@media (min-width: 568px) {
+
+			th,
+			td {
+				word-break: keep-all;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-login100" style="background-image: url('images/Company Background.jpeg');">
+		<div class="col-md-8 col-md-offset-4 form-container">
+			<form class="login100-form validate-form flex-sb flex-w" onsubmit="submitFeedback($('input[name=rate]:checked').val(), $('input[name=confidence]:checked').val(), $('input[name=Day-to-day]:checked').val(), $('input[name=importance]:checked').val(), $('input[name=vision]:checked').val(), $('input[name=beyond]:checked').val(), $('#subject').val()); return false;">
+				<div id="header">
+					<div class="navbar">
+						<nav>
+							<a href="#">Managerial Login</a>
+						</nav>
+					</div>
+				</div>
+				<h1>
+					<center>DevForce Incorporated Feedback Form</center>
+				</h1>
+				<p>Please take a few minutes out of your day to provide us with some feedback about our company by
+					completing this
+					feedback form. We strongly encourage employee engagement as it represents the levels of enthusiasm
+					and connection
+					our employees have with our organization. We thank you for your participation.</p>
+				
+				<br><h6><center>Using the buttons below, adjust the chart accordingly to align your views for how you perceive
+					DevForce Incorporated.</h6></center>
+				<div id="pieorig"></div>
+				<div class="buttons">
+					<table>
+						<tr>
+						  <td><button id="a" >A</button></td>
+						  <td><button id="b">B</button></td>
+						  <td><button id="c">C</button></td>
+						</tr>
+						<tr>
+						  <td>Adaptive to Change</td>
+						  <td>Clear Vision</td>
+						  <td>Positive Leadership</td>
+						</tr>
+					  </table>
+				</div>
+
+				<h4>Please rate your overall experience with our service</h4>
+				<table>
+					<tr>
+						<th class="first-col"></th>
+						<th>Strongly Agree</th>
+						<th>Agree</th>
+						<th>Neither Agree nor Disagree</th>
+						<th>Disagree</th>
+						<th>Strongly Disagree</th>
+					</tr>
+					<tr>
+						<td class="first-col">DevForce Incorporated is a great comapny for me to make a contribution to
+							my development</td>
+						<td><input type="radio" value="5" name="rate" /></td>
+						<td><input type="radio" value="4" name="rate" /></td>
+						<td><input type="radio" value="3" name="rate" /></td>
+						<td><input type="radio" value="2" name="rate" /></td>
+						<td><input type="radio" value="1" name="rate" /></td>
+					</tr>
+					<tr>
+						<td class="first-col">I have confidence in the leaders at DevForce Incorporated</td>
+						<td><input type="radio" value="5" name="confidence" /></td>
+						<td><input type="radio" value="4" name="confidence" /></td>
+						<td><input type="radio" value="3" name="confidence" /></td>
+						<td><input type="radio" value="2" name="confidence" /></td>
+						<td><input type="radio" value="1" name="confidence" /></td>
+					</tr>
+					<tr>
+						<td class="first-col">Day-to-day decisions here demonstrate that quality and improvement are top
+							priorities</td>
+						<td><input type="radio" value="5" name="Day-to-day" /></td>
+						<td><input type="radio" value="4" name="Day-to-day" /></td>
+						<td><input type="radio" value="3" name="Day-to-day" /></td>
+						<td><input type="radio" value="2" name="Day-to-day" /></td>
+						<td><input type="radio" value="1" name="Day-to-day" /></td>
+					</tr>
+					<tr>
+						<td class="first-col">The leaders at DevForce Incorporated demonstrate that people are important
+							to the company's success</td>
+						<td><input type="radio" value="5" name="importance" /></td>
+						<td><input type="radio" value="4" name="importance" /></td>
+						<td><input type="radio" value="3" name="importance" /></td>
+						<td><input type="radio" value="2" name="importance" /></td>
+						<td><input type="radio" value="1" name="importance" /></td>
+					</tr>
+					<tr>
+						<td class="first-col">The leaders at DevForce Incorporated have communicated a vision that
+							motivated me</td>
+						<td><input type="radio" value="5" name="vision" /></td>
+						<td><input type="radio" value="4" name="vision" /></td>
+						<td><input type="radio" value="3" name="vision" /></td>
+						<td><input type="radio" value="2" name="vision" /></td>
+						<td><input type="radio" value="1" name="vision" /></td>
+					</tr>
+					<tr>
+						<td class="first-col">DevForce Incorporated motivates me to go beyond what I would in a similar
+							role elsewhere</td>
+						<td><input type="radio" value="5" name="beyond" /></td>
+						<td><input type="radio" value="4" name="beyond" /></td>
+						<td><input type="radio" value="3" name="beyond" /></td>
+						<td><input type="radio" value="2" name="beyond" /></td>
+						<td><input type="radio" value="1" name="beyond" /></td>
+					</tr>
+				</table>
+				<h5>What should we change in order to exceed your expectations as your employer?</h5><br>
+				<textarea id="subject" name="subject" placeholder="Enter your feedback here..."
+					style="height:200px"></textarea>
+				<br>
+
+				<script>
+					var dataorig = [{ "letter": "A", "presses": 1 }, { "letter": "B", "presses": 1 }, { "letter": "C", "presses": 1 }];
+
+					var width = 300,
+						height = 300,
+						radius = Math.min(width, height) / 2;
+
+					var colororig = d3.scaleOrdinal()
+						.range(["#b5a6e0", "#8848BD", "#7A8EFF"]);
+
+					var arc = d3.arc()
+						.outerRadius(radius - 10)
+						.innerRadius(0);
+
+					var labelArc = d3.arc()
+						.outerRadius(radius - 40)
+						.innerRadius(radius - 40);
+
+					var pieorig = d3.pie()
+						.value(function (d) { return d.presses; })(dataorig);
+
+					var svg = d3.select("#pieorig")
+						.append("svg")
+						.attr("width", width)
+						.attr("height", height)
+						.append("g")
+						.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")"); // Moving the center point
+
+					var g = svg.selectAll("arc")
+						.data(pieorig)
+						.enter().append("g")
+						.attr("class", "arc");
+
+					g.append("path")
+						.attr("d", arc)
+						.style("fill", function (d) { return colororig(d.data.letter); })
+						.each(function (d) { this._current = d; }); // store the initial angles;
+
+					g.append("text")
+						.attr("transform", function (d) { return "translate(" + labelArc.centroid(d) + ")"; })
+						.text(function (d) { return d.data.letter; })
+						.style("fill", "#fff")
+						.each(function (d) { this._current = d; }); // store the initial angles;
+
+
+					//Buttons
+					d3.select(".buttons #a")
+						.on("click", function () {
+							dataorig[0].presses++;
+							change();
+						})
+					d3.select(".buttons #b")
+						.on("click", function () {
+							dataorig[1].presses++;
+							change();
+						})
+					d3.select(".buttons #c")
+						.on("click", function () {
+							dataorig[2].presses++;
+							change();
+						})
+
+					function change() {
+						var pie = d3.pie()
+							.value(function (d) { return d.presses; })(dataorig);
+						path = d3.select("#pieorig").selectAll("path").data(pie);
+						path.transition().duration(500).attrTween("d", arcTween);
+						d3.selectAll("text").data(pie).transition().duration(500).attrTween("transform", labelarcTween); // Smooth transition with labelarcTween
+					}
+
+					function arcTween(a) {
+						var i = d3.interpolate(this._current, a);
+						this._current = i(0);
+						return function (t) {
+							return arc(i(t));
+						};
+					}
+					function labelarcTween(a) {
+						var i = d3.interpolate(this._current, a);
+						this._current = i(0);
+						return function (t) {
+							return "translate(" + labelArc.centroid(i(t)) + ")";
+						};
+                    }
+
+                    function submitFeedback(q1, q2, q3, q4, q5, q6, fText) {
+
+                        //variables for the web service called and the parameter passed in to the function
+                        var webMethod = "ProjectServices.asmx/AddFeedback";
+                        var parameters = "{\"q1\":\"" + encodeURI(q1) + "\"},\"q2\":\"" + encodeURI(q2) + "\",\"q3\":\"" + encodeURI(q3) + "\",\"q4\":\"" + encodeURI(q4) + "\",\"q5\":\"" + encodeURI(q5) + "\",\"q6\":\"" + encodeURI(q6) + "\",\"fText\":\"" + encodeURI(fText) + "\"}";
+
+                        $.ajax({
+                            type: "POST",
+                            url: webMethod,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            data: parameters,
+                            success: function (response) {
+
+                                alert("Feedback Submitted successfully!");
+
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(xhr.status);
+                                alert(thrownError);
+                                alert(q1);
+                                alert(fText);
+                            }
+                        });
+
+                        function getVotes() {
+
+                            var r1 = $('input[name="rate"]:checked').val();
+                            var r2 = $('input[name="confidence"]:checked').val();
+                            var r3 = $('input[name=Day-to-day]:checked').val();
+                            var r4 = $('input[name=importance]:checked').val();
+                            var r5 = $('input[name=vision]:checked').val();
+                            var r6 = $('input[name=beyond]:checked').val();
+                            var r7 = $('#subject').val();
+
+                            submitFeedback(r1, r2, r3, r4, r5, r6, r7);
+                            alert(r1);
+                            alert(r7);
+
+
+
+                        }
+
+				</script>
+				<div class="btn-block">
+					<button type="submit">Send Feedback</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

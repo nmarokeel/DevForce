@@ -305,5 +305,73 @@ namespace ProjectTemplate
             sqlConnection.Close();
         }
 
+        [WebMethod(EnableSession = true)]
+        public Users[] GetUsers()
+        {
+            //string to select all items from requests table that don't have resolution
+            string sqlSelect = "select userid, email, password, status FROM person;";
+
+            //creates a table for us to load an array into
+            DataTable sqlDt = new DataTable("users");
+
+            //standard sql connection variables
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            sqlDa.Fill(sqlDt);
+
+            //creating the array of Request objects by looping through the database request table for all entries without a resolution already
+            List<Users> users = new List<Users>();
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+                users.Add(new Users
+                {
+                    userId = Convert.ToInt32(sqlDt.Rows[i]["userid"]),
+                    email = sqlDt.Rows[i]["email"].ToString(),
+                    password = sqlDt.Rows[i]["password"].ToString(),
+                    status = sqlDt.Rows[i]["status"].ToString()
+                });
+            }
+
+            //returns the array of the Request objects
+            return users.ToArray();
+
+
+        }
+
+        [WebMethod(EnableSession =  true)]
+        public string UpdateUserStatus(string userid, string status)
+        {
+            //sql string to update the status of a user
+            string sqlSelect = "update person set status=@statValue where userid=@usrValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            //uses the provided values to update the sql command
+            sqlCommand.Parameters.AddWithValue("@statValue", HttpUtility.UrlDecode(status));
+            sqlCommand.Parameters.AddWithValue("@usrValue", HttpUtility.UrlDecode(userid));
+
+            //open the connection to sql database
+            sqlConnection.Open();
+
+            //try - catch block 
+            try
+            {
+                sqlCommand.ExecuteNonQuery();
+                return "Success!";
+            }
+            catch (Exception e)
+            {
+                return "ERROR!!" + e.Message;
+            }
+
+            sqlConnection.Close();
+
+        }
+
+
     }
 }

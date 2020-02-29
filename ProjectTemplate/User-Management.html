@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        
+        .form-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 3px solid #f1f1f1;
+            z-index: 9;
+        }
+
+        .form-container {
+            max-width: 300px;
+            padding: 10px;
+            background-color: white;
+        }
+
+            .form-container input[type=text] {
+                width: 100%;
+                padding: 15px;
+                margin: 5px 0 22px 0;
+                border: none;
+                background: #f1f1f1;
+            }
+
+    </style>
+
+</head>
+<body onload="getAllUsers();">
+
+    <h1>User Accounts</h1>
+    <div id="accounts"><table title="accTable" border="1" id="table_id"></table></div>
+
+
+
+    <div class="form-popup" id="myForm">
+        <form class="form-container" onsubmit="makeAccountUpdate();">
+            <h1>User</h1>
+
+            <h3>Request ID</h3>
+            <p id="idPop"></p>
+
+            <h3>Email</h3>
+            <p id="emailPop"></p>
+
+            <h3>Password</h3>
+            <p id="pswPop"></p>
+
+            <h3>Status</h3>
+            <p id="statPop"></p>
+
+            <label for="newStat"><b>Change Status</b></label>
+            <select id="sta">
+                <option value="user">User</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Administrator</option>
+                <option value="delete">Delete</option>
+            </select>
+
+
+            <button type="submit" class="btn">Submit</button>
+            <button type="reset" class="btn cancel" onclick="closeForm()">Close</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+
+        function getAllUsers() {
+
+            var webMethod = "ProjectServices.asmx/GetUsers";
+
+
+            //jQuery ajax method
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+
+                    //create an array with the response from the webMethod
+                    userArray = response.d;
+                    //clear the table just to ensure it's accurate
+                    $("#table_id").empty();
+
+                    //loop through the array then add the values returned and put them into an html table as a new table row
+                    for (var i = 0; i < userArray.length; i++) {
+                        var usr;
+                        var table = document.getElementById("table_id");
+                        var row = table.insertRow(i);
+                        var idnum = userArray[i].userId;
+
+                        usr = "<tr onclick='openForm(); populateUserForm(" + idnum + ");' style='cursor:pointer'><td>" + userArray[i].userId + "</td><td>" + userArray[i].email + "</td><td>" + userArray[i].password + "</td><td>" + userArray[i].status + "</td></tr>";
+                        //row.innerHtml = req;
+                        $("#table_id").append(usr);
+                    }
+
+
+                },
+                error: function (e) {
+                    alert("Something went wrong!");
+                }
+            });
+
+        }
+
+        function populateUserForm(id) {
+
+            //variables for the web service called and the parameter passed in to the function
+            var webMethod = "ProjectServices.asmx/GetUserByID";
+            var parameters = "{\"id\":\"" + encodeURI(id) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: parameters,
+                success: function (response) {
+
+                    //create variable for the returned Request object
+                    user1 = response.d;
+
+                    //populate the popup form with the object parameters
+                    document.getElementById("idPop").innerHTML = user1.userId;
+                    document.getElementById("emailPop").innerHTML = user1.email;
+                    document.getElementById("pswPop").innerHTML = user1.password;
+                    document.getElementById("statPop").innerHTML = user1.status;
+                    
+                }
+
+            });
+        }
+
+        function openForm() {
+            document.getElementById("myForm").style.display = "block";
+            
+        }
+
+        function changeStatus(id, status) {
+
+            //variables for the web service called and the parameter passed in to the function
+            var webMethod = "ProjectServices.asmx/UpdateUserStatus";
+            var parameters = "{\"userid\":\"" + encodeURI(id) + "\",\"status\":\"" + encodeURI(status) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: parameters,
+                success: function (response) {
+
+                    alert("Status updated");
+
+                },
+                error: function (e) {
+                    alert("Status update failed");
+                    alert(id);
+                    alert(status);
+                }
+
+            });
+        }
+
+        function makeAccountUpdate() {
+            var accChoice = $("#sta").val();
+            var usrNum = $("#idPop").text();
+
+            if (accChoice == "delete") {
+                deleteUser(usrNum);
+            }
+            else {
+                changeStatus(usrNum, accChoice);
+            }
+        }
+
+        function deleteUser(id) {
+
+            //variables for the web service called and the parameter passed in to the function
+            var webMethod = "ProjectServices.asmx/DeleteUser";
+            var parameters = "{\"id\":\"" + encodeURI(id) + "\"}";
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: parameters,
+                success: function (response) {
+
+                    alert("User Deleted");
+                    alert(id);
+
+                },
+                error: function (e) {
+                    alert("Deletion Failed");
+                }
+
+            });
+        }
+
+        function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+        }
+
+    </script>
+</body >
+</html >

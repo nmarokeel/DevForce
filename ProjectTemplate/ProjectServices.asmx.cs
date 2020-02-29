@@ -372,6 +372,37 @@ namespace ProjectTemplate
 
         }
 
+        [WebMethod(EnableSession = true)]
+        public Users GetUserByID(string id)
+        {
+            string sqlSelect = "select userid, email, password, status from person WHERE userid=@idValue;";
+
+            MySqlConnection sqlConnection = new MySqlConnection(getConString());
+            MySqlCommand sqlCommand = new MySqlCommand(sqlSelect, sqlConnection);
+
+            DataTable sqlDt = new DataTable("user");
+
+            sqlCommand.Parameters.AddWithValue("@idValue", HttpUtility.UrlDecode(id));
+
+            MySqlDataAdapter sqlDa = new MySqlDataAdapter(sqlCommand);
+
+            sqlDa.Fill(sqlDt);
+
+            Users usr1 = new Users();
+
+            for (int i = 0; i < sqlDt.Rows.Count; i++)
+            {
+
+                usr1.userId = Convert.ToInt32(sqlDt.Rows[i]["userid"]);
+                usr1.email = sqlDt.Rows[i]["email"].ToString();
+                usr1.password = sqlDt.Rows[i]["password"].ToString();
+                usr1.status = sqlDt.Rows[i]["status"].ToString();
+                
+            }
+
+            return usr1;
+
+        }
 
     }
 }
